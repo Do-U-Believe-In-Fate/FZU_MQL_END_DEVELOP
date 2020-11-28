@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN</title>
+
+    <link rel="stylesheet" href="styles/login.css">
+    <script type="text/javascript" src="script/operation.js"></script>
+    <script type="text/javascript" src="script/jquery/jquery-3.5.1.js"></script>
+
+    <script type="text/javascript">
+
+        $(function(){
+
+            $(".btnlogin").click(function(){
+                var uid = $("#username").val();
+                var upwd = $("#userpwd").val();
+
+                var sendData = JSON.stringify({
+                    account: uid,
+                    password: upwd
+                });
+
+                $.ajax({
+                    url: "https://www.jieblue.xyz:8080/manager/login",
+                    type: "POST",
+                    // contentType: "application/json",
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    data: sendData,
+
+                    success: function(reponseData){
+                        if(reponseData == "true"){
+                            alert("Login Success!");
+                            window.location.href = "index.html";
+                        }
+                        else   
+                            alert("Login Failed!\nPlease check your message again!");
+                    },
+
+                    error: function(){
+                        alert("Send Failed!");
+                    }
+                })
+
+            })
+
+        })
+
+    </script>
+</head>
+
+<body class = "lucid">
+    <div class="loginframe">
+        <div class="title">管理员登录</div>
+
+        <div>
+            <div class="typeface">用户名:</div>
+            <input class="in" type="text" id="username">
+            <br>
+            <div class="typeface">密&nbsp;&nbsp;&nbsp;码:</div>
+            <input class="in" type="text" id="userpwd">
+        </div>
+
+        <button class="btnlogin">登录</button>
+    </div>
+
+
+
+
+</body>
+</html>
