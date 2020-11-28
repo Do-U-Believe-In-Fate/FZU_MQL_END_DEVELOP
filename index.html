@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>FZU_MQL Manager</title>
+
+        <link rel="stylesheet" href="styles/background.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.staticfile.org/ionicons/2.0.1/css/ionicons.min.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="styles/hover-box.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="styles/main_css.css">
+        
+        <script type="text/javascript" src="script/operation.js"></script>
+        <script type="text/javascript" src="script/jquery/jquery-3.5.1.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function initial(){
+                $(".top-right-nav-box").hide();
+            })
+
+            $(function(){
+                $(".menu").click(function(){
+                    var modify_page = $("#main_page");
+                    var nav = this;
+                    modify_page.attr("src", nav.value + ".html");
+                    $(".column").empty();
+                    $(".column").append(nav.value);
+                    // alert(nav.value + ".html");
+                })
+
+                $(".top-right-select").click(function(){
+                    // alert(this.style.display);
+                    var nav_box = $(".top-right-nav-box");
+                    nav_box.toggle("normal"); // fast normal slow
+                    // if(nav_box.css("display") == "none"){
+                    //     nav_box.show();
+                    // }
+                    // else{
+                    //     nav_box.hide();
+                    // }
+                })
+
+                $(".logout").click(function(){
+                    logoutConfirm();
+                });
+                
+                // $(".dish").ready(function(){
+                //     $.ajax({
+                //         url: "https://www.jieblue.xyz:8080/dish/getinfomation",
+                //         data: {
+                //             id: "",
+
+                //         },
+                //         dataType: "json",
+                //         success: function(dishData){
+                //             for(var ){
+                //                 $("ul").append("<li><li>");
+                //             }
+                //         },
+                //     })
+
+                // })
+            })
+
+        </script>
+
+    </head>
+
+<!-- 页面主体 -->
+
+    <body class="bg">
+
+        <div class = "container">
+
+            <div class="top-left-nav">
+                <a href="index.html">LOGO</a>
+            </div>
+
+            <div class = "top-left-nav">
+                <a href="index.html">福其林</a>
+            </div>
+
+            <div class="top-right-select">
+                <a class="top-right-nav">管理员</a>
+                <i class="icon ion-arrow-down-b"></i>
+                <div class="top-right-nav-box">
+                    <li class="logout">退出</li>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class = "side-frame">
+            <span class = "select">
+                <button class = "menu" value="introduce"> >> 介绍&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                <button class = "menu" value="dish"> >> 全部菜品</button>
+                <button class = "menu" value="user"> >> 用户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+            </span>
+        </div>
+
+        <div class="check">
+            <ul class="column">欢迎来到 FZU-MQL 后台管理界面！</ul>
+            
+            <div id="main_container">
+                <iframe id="main_page" src="introduce.html"
+                        frameborder="no" scrolling="auto" allowtransparency="true">
+            </div>
+        </div>
+
+
+    </body>
+
+</html>

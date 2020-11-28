@@ -1,0 +1,127 @@
+
+.bg{
+    background-color: white;
+    overflow: hidden;
+}
+
+.container{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 50px; 
+    width: 100%;
+    background-color: rgb(90, 90, 90); 
+    z-index: 3;
+    margin: 0px;
+}
+
+a{
+    color: white; 
+    text-decoration: none;
+}
+
+.container .top-left-nav{
+    display: inline-block;
+    width: 100px;
+    color: white;
+    font-weight: 700; 
+    font-size: 20px; 
+    line-height: 50px;
+    text-indent: 1em;
+    cursor: pointer;
+}
+
+.container .top-right-select{
+    display: inline-block;
+    width: 100px;
+    height: 50PX;
+    color: white; 
+    cursor: pointer;
+    float: right;
+    font-size: 20px; 
+    line-height: 50px;
+    overflow: visible;
+}
+
+.container .top-right-nav{
+    line-height: 50px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 20px; 
+    overflow: visible;
+}
+
+.side-frame{
+    position: absolute;
+    bottom: 0px;
+    top: 0px;
+    left: 0;
+    z-index: 2;
+    width: 200px;
+}
+
+.side-frame .select .menu{
+    background-color: white;
+    height: auto;
+    width: 200px;
+    display: inline-block;
+    padding: 10px 5px;
+    line-height: 50px;
+    text-align: center;
+    font-weight: 700;
+    color: rgb(150, 150, 150);
+    font-size: 20px; 
+    text-decoration: none;
+    border-style: solid;
+    border-top-color: white;
+    border-left-color: white;
+    border-right-color: white;
+    border-bottom-color:   rgb(220, 220, 220);
+}
+
+.side-frame .select .menu:hover{
+    background-color: rgb(230, 230, 230);
+}
+
+.side-frame .select{
+    display: inline-block;
+    position:absolute;
+    top:58px;
+    width: 200px;
+    height: 100%;
+    background-color: white;
+    float: left;
+}
+
+.check{
+    position: absolute;
+    top:50px;
+    left: 200px;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(230, 230, 230);
+   
+}
+
+.column{
+    border-style: outset;
+    border-top-color:  rgb(230, 230, 230);
+    border-left-color:  rgb(230, 230, 230);
+    border-right-color: rgb(230, 230, 230);
+    border-bottom-color:   rgb(100, 100, 100);
+    text-decoration: none;
+    text-align: center;
+    font-weight: 600;
+    font-size: 20px;
+    height: 5%;
+    width: 70%;
+}
+
+.btn{
+    height: 200px;
+    width: 100%;
+    font-weight: 700;
+    color: rgb(150, 150, 150);
+    font-size: 20px; 
+    text-decoration: none;
+}

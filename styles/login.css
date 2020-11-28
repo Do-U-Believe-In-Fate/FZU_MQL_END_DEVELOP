@@ -1,0 +1,44 @@
+.lucid{
+    background-color: rgb(150,150,150);
+}
+
+.loginframe{
+    position: fixed;
+    background-color: white;
+    top: 200px;
+    left: 720px;
+    right: 720px;
+    bottom: 270px;
+}
+
+.loginframe .title{
+    display: inline-block;
+    height: 150px;
+    line-height: 70px;
+    font-size: 30px;
+    text-indent: 1em;
+    color: green;
+}
+
+.typeface{
+    display: inline-block;
+    height: 100px;
+    width: 130px;
+    line-height: 70px;
+    font-size: 30px;
+    text-indent: 1em;
+    color: green;
+}
+
+.in{
+    height: 30px;
+    width: 230px;
+}
+
+.btnlogin{
+    height: 40px;
+    width: 70px;
+    display:block;
+    margin:0 auto;
+    font-size: 20px;
+}

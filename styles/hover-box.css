@@ -1,0 +1,17 @@
+.top-right-nav-box{
+    display: none;
+    list-style: none;
+    padding: 0px 0px;
+    margin: 0px 0px;
+    background-color: darkgrey;
+    text-decoration: none;
+    /* text-align: center; */
+    font-weight: 600;
+    font-size: 18px;
+    z-index: 4;
+    overflow: visible;
+}
+
+.top-right-nav-box>li:hover{
+    background-color: dimgray;
+}
