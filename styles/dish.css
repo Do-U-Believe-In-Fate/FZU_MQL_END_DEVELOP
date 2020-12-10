@@ -1,0 +1,147 @@
+.check{
+    position: absolute;
+    top:0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-color: rgb(230, 230, 230);
+}
+
+
+.check .toprow{
+    display: inline-block;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    font-size: 20px;
+    text-indent: 1em;
+    color: rgb(54, 0, 179);
+    border-style: solid;
+    border-top-color: rgb(230, 230, 230);
+    border-left-color:rgb(230, 230, 230);
+    border-right-color: rgb(230, 230, 230);
+    border-bottom-color:   rgb(150, 150, 150);
+}
+
+.check .details{
+    background-color: white;
+    display: none;
+    height: 100%;
+}
+
+.check .details .menu{
+    background-color: white;
+    height: auto;
+    width: 400px;
+    display: inline-block;
+    padding: 10px 5px;
+    line-height: 50px;
+    text-align: left;
+    font-weight: 700;
+    text-align: center;
+    color: rgb(150, 150, 150);
+    font-size: 20px; 
+    text-decoration: none;
+    border-style: solid;
+    border-top-color: white;
+    border-left-color: white;
+    border-right-color: white;
+    border-bottom-color:   rgb(220, 220, 220);
+}
+
+.check .details .menu:hover{
+    background-color: rgb(230, 230, 230);
+}
+
+.check .inp{
+    position: absolute;
+    top: 70px;
+    left: 20px;
+    height: 30px;
+    width: 400px;
+    font-size: 18px;
+}
+
+.check .but{
+    position: absolute;
+    top: 75px;
+    left: 470px;
+    height: 30px;
+    width: 50px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.check .buton{
+    position: absolute;
+    top: 60px;
+    background-color: rgb(230, 230, 230);
+    border-style: none;
+    right: 100px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    border: 4px solid black;
+    margin: 1px;
+    font-size: 30px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.check .tab{
+    position: absolute;
+    top:120px;
+    width: 100%;
+    color: rgb(92, 92, 92);
+}
+
+.check .tab2{
+    position: absolute;
+    top:120px;
+    width: 100%;
+    color: rgb(92, 92, 92);
+}
+
+.dishdetails{
+    
+    height: 80px;
+    line-height: 80px;
+    font-size: 24px;
+    text-indent: 2em;
+}
+
+.decide{
+    display: none;
+    position: fixed;
+    background-color: rgb(170, 170, 170);
+    margin-top: 150px;
+    margin-left: 600px;
+    margin-right: 600px;
+    height: 150px;
+    line-height: 150px;
+    width: 300px;
+    z-index: 7;
+    text-align: center;
+}
+
+.dishcomment{
+    position:relative;
+    left: 400px;
+    top: -520px;
+}
+
+.dishcom{
+    font-size: 24px;
+}
+
+.decide .debuton{
+    width: 100px;
+    height: 40px;
+    font-size: 24px;
+}
+
+.decide .debutton{
+    width: 100px;
+    height: 40px;
+    font-size: 24px;
+}
