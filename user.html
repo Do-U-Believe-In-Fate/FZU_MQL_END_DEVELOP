@@ -4,16 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FZU_MQL Manager</title>
-    <link rel="stylesheet" href="styles/background.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.staticfile.org/ionicons/2.0.1/css/ionicons.min.css">
-    <script type="text/javascript" href="script/operation.js"></script>
+    <link rel="stylesheet" href="styles/user.css">
+    <script type="text/javascript" src="script/operation.js"></script>
+    <script type="text/javascript" src="script/jquery/jquery-3.5.1.js"></script>
+    <script type="text/javascript">
+
+        $(function(){
+            var dishList = $(".tab")
+            $.ajax({
+                url: "https://www.jieblue.xyz:8080/user/getusers",
+                type: "GET",
+                // contentType: "application/json",
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                // data: JSON.stringify(
+                //     id:
+                //     }),
+
+                success: function(responseData){
+                    for(var i = 0; i<responseData.length; i++){
+                        var tmp = responseData[i];
+                        dishList.append("<tr>"+
+                            "<td>"+tmp.id+"</td>"+
+                            "<td>"+tmp.name+"</td>"+
+                            "<td>"+tmp.integral+"</td>"+
+                        "</tr>")
+                    }
+                },
+
+                error: function(){
+                    alert("Send Failed!");
+                }
+            })
+
+        })
+
+    </script>
 </head>
 
 <body>
-	<div id="container">
-		<table class="table" cellspacing="0" cellpadding="0" width="100%" align="center"  border="0">
-		    123
-		</table>
+	<div class="check">
+        <div class="toprow">用户</div>
+        <input type="text" placeholder="用户id" class="inp">
+        <button class="but">搜索</button>
+        <br>
+        <table class="tab">
+            <tr>
+                <th style="width: 500px; text-align: center;">用户id</th>
+                <th>级别</th>
+                <th>积分</th>
+            </tr>
+            
+            <tr>
+
+            </tr>
+        </table>
     </div>
     
     <div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>

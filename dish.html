@@ -2,419 +2,415 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <script type="text/javascript" src="scripts/jquery/jquery-1.7.1.js"></script>
-    <link href="style/authority/basic_layout.css" rel="stylesheet" type="text/css">
-    <link href="style/authority/common_style.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="scripts/authority/commonAll.js"></script>
-    <script type="text/javascript" src="scripts/fancybox/jquery.fancybox-1.3.4.js"></script>
-    <script type="text/javascript" src="scripts/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
-    <link rel="stylesheet" type="text/css" href="style/authority/jquery.fancybox-1.3.4.css" media="screen"></link>
-    <script type="text/javascript" src="scripts/artDialog/artDialog.js?skin=default"></script>
+    <script type="text/javascript" src="script/operation.js"></script>
+    <script type="text/javascript" src="script/jquery/jquery-3.5.1.js"></script>
+    <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="styles/dish.css">
+    <link rel="stylesheet" href="styles/add.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.staticfile.org/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="styles/hover-box.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="styles/main_css.css">
     <title>信息管理系统</title>
     <script type="text/javascript">
-        $(document).ready(function(){
-            /** 新增   **/
-            $("#addBtn").fancybox({
-                'href'  : 'house_edit.html',
-                'width' : 733,
-                'height' : 530,
-                'type' : 'iframe',
-                'hideOnOverlayClick' : false,
-                'showCloseButton' : false,
-                'onClosed' : function() { 
-                    window.location.href = 'house_list.html';
+        $(function(){
+
+            //返回菜品数据
+            var dishList = $(".tab")
+            $(".tab2").fadeOut();
+            $.ajax({
+                url: "https://www.jieblue.xyz:8080/dish/getall",
+                type: "GET",
+                // contentType: "application/json",
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                // data: JSON.stringify(
+                //     id:
+                //     }),
+
+                success: function(responseData){
+                    for(var i = 0; i<responseData.length; i++){
+                        var tmp = responseData[i];
+                        dishList.append("<tr>"+
+                                "<td>"+tmp.name+"</td>"+
+                                "<td>"+tmp.restaurantname+"</td>"+
+                                "<td>"+tmp.restaurantlocation+"</td>"+
+                                "<td><button onclick = 'updateDish(\""+tmp.id+"\")'>修改菜品</button></td>"+
+                                "<td><button onclick = 'addDish(\""+tmp.id+"\")'>查看详情</button></td>"+
+                            "</tr>");
+                            // console.log(tmp.name+tmp.id);
+                    }
+                },
+
+                error: function(){
+                    alert("Send Failed!");
                 }
-            });
+            })
+
             
-            /** 导入  **/
-            $("#importBtn").fancybox({
-                'href'  : '/xngzf/archives/importFangyuan.action',
-                'width' : 633,
-                'height' : 260,
-                'type' : 'iframe',
-                'hideOnOverlayClick' : false,
-                'showCloseButton' : false,
-                'onClosed' : function() { 
-                    window.location.href = 'house_list.html';
-                }
-            });
+
+            $(".but2").click(function(){
+                // var myForm = document.getElementById("myForm");
+                // var formData = new FormData(myForm);
+                $.ajax({
+                    url: 'https://www.jieblue.xyz:8080/dish/insertdish',
+                    type: 'post',
+                    processData: false,
+                    contentType: false,
+                    data: new FormData($('#myForm')[0]),
+                    // contentType: "multipart/form-data",
+                    // headers: {
+                    //     'Content-Type':'multipart/form-data'
+                    // },
+                    async: false,
+                    success: function(reponseData){
+                        if(reponseData == "true"){
+                            alert("Login Success!");
+                            window.location.href = "index.html";
+                        }
+                        if(reponseData == "exist"){
+                            alert("The dish exist!");
+                        };
+                        // else   
+                        //     alert("Login Failed!\nPlease check your message again!");
+                    },
+
+                    error: function(){
+                        alert("Send Failed!");
+                    }
+                }).done(function(res){}).fail(function(res){})
+
+            })
+
+            $(".but").click(function(){
+                var dishList = $(".tab2")
+                $(".tab").fadeOut();
+                $(".tab2").fadeIn();
+                $.ajax({
+                    url: "https://www.jieblue.xyz:8080/dish/search",
+                    type: "post",
+
+                    // 
+                    contentType: "application/json; charset = utf-8",
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    
+                //     dataType: "json",
+                    data: JSON.stringify({
+                        "word": $("#search").val(),
+                        "page": 0
+                    }
+                    ),
+
+                    success: function(rponseData){
+                        for(var i = 0; i<rponseData.length; i++){
+                            var tmp = rponseData[i];
+                            dishList.append("<tr>"+
+                                "<td>"+tmp.name+"</td>"+
+                                "<td>"+tmp.restaurantname+"</td>"+
+                                "<td>"+tmp.restaurantlocation+"</td>"+
+                                "<td><button onclick = 'updateDish(\""+tmp.id+"\")'>修改菜品</button></td>"+
+                                "<td><button onclick='addDish(\""+tmp.id+"\")'>查看详情</button></td>"+
+                            "</tr>")
+                        }
+                    },
+
+                    error: function(){
+                        alert("Send Failed!");
+                    }
+                })
+            })
+
             
-            /**编辑   **/
-            $("a.edit").fancybox({
-                'width' : 733,
-                'height' : 530,
-                'type' : 'iframe',
-                'hideOnOverlayClick' : false,
-                'showCloseButton' : false,
-                'onClosed' : function() { 
-                    window.location.href = 'house_list.html';
-                }
+        })
+        
+        function reback(){
+                $(".first").fadeIn();
+                $(".details").empty();
+                $(".details").fadeOut();
+        };
+
+        function delet(id){
+            $(".decide").fadeIn();
+            $(".debuton").click(function(){
+                $(".decide").fadeOut();
+            });
+            $(".debutton").click(function(){
+                $(".decide").fadeOut();
+                $(".first").fadeIn();
+                $(".details").fadeOut();
+                $(".details").empty();
+                $.ajax({
+                        url: "https://www.jieblue.xyz:8080/dish/deletedish",
+                        type: "post",
+
+                        data: $.param({
+                            "id": id
+                        }),
+
+                        success: function(rponseData){
+                            if(rponseData=="true"){
+                                alert("Send success!");
+                                window.location.href = "dish.html";
+                            }
+                            else
+                            alert("delete failse!")
+                        },
+
+                        error: function(){
+                            alert("Send Failed!");
+                        }
+                    });
+                });   
+            }
+        
+        function updateDish(id){
+            $(".upbox").fadeIn();
+            $(".upbutn").click(function(){
+                $(".upbox").fadeOut();
+            });
+            $(".upbut2").click(function(){
+                
+            
+            $.ajax({
+                    url: "https://www.jieblue.xyz:8080/dish/updatedish",
+                    type: "post",
+
+                    contentType: "application/json; charset = utf-8",
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    
+                //     dataType: "json",
+                    data: JSON.stringify({
+                        "id": id,
+                        "name": $("#upname").val(),
+                        "favor": $("#upfavor").val(),
+                        "price": $("#upprice").val(),
+                        "category": $("#upcategory").val(),
+                        "rname": $("#uprname").val(),
+                        "rlocation": $("#uprlocation").val(),
+                        "score": $("#upscore").val(),
+                        "num": $("#upnum").val()
+                    }
+                    ),
+
+                    success: function(rponseData){
+                        alert("Update Success!");
+                    },
+
+                    error: function(){
+                        alert("Send Failed!");
+                    }
+                })
+
+            });
+        };
+
+        function addDish(id){
+                // console.log(this.);
+                $(".first").fadeOut();
+                $(".details").fadeIn();
+                var dishLi = $(".details");
+                console.log(id);
+                $.ajax({
+                        url: "https://www.jieblue.xyz:8080/dish/getinfomation",
+                        type: "post",
+                        data: $.param({
+                            "id": id
+                        }),
+                        success: function(rponseData){
+                            var tm = rponseData;
+
+                            dishLi.append("<div style='height: 150px; margin-left: 20px;'>"+"<br>"+
+                                    "<img src='"+tm.smallpic+"' alt='false' style='height:100%;'>"+
+                                    "<button style='float:right;height:40px;width:40px;font-size:24px;' onclick='reback()'>"+
+                                    "&#10006</button>"+
+                                "</div>"+
+                                "<div>"+
+                                    "<button class='menu'>基本信息</button>"+
+                                    "<button class='menu'>评论信息</button>"+
+                                "</div>"+
+                                "<div style='display: inline-block;width:400px;'>"+
+                                "<div class='dishdetails'>菜名："+tm.name+"</div>"+
+                                "<div class='dishdetails'>评分："+tm.score+"</div>"+
+                                "<div class='dishdetails'>店铺："+tm.restaurantname+"</div>"+
+                                "<div class='dishdetails'>位置："+tm.restaurantlocation+"</div>"+
+                                "<div class='dishdetails'>口味："+tm.favor+"</div>"+
+                                "<div class='dishdetails'>价格："+tm.price+"</div>"+
+                                "<button style='height:60px;width:200px;font-size:24px;background-color:red;' onclick='delet("+tm.id+")'>删除菜品</button>"+
+                            "</div>")
+                        },
+                        error: function(){
+                            alert("Send Failed!");
+                        }
+                    });
+                    
+                    // setTimeout(function(){ alert("Hello"); }, 1000);
+
+                    $.ajax({
+                        url: "https://www.jieblue.xyz:8080/dish/getcomment",
+                        type: "post",
+                        data: $.param({
+                            "did": id
+                        }),
+                        success: function(rponsData){
+                            for(var i = 0; i<rponsData.length; i++){
+                            var tm = rponsData[i];
+                            dishLi.append("<div class='dishcomment'>"+
+                                "<div class='dishcom'>用户："+tm.username+"</div>"+
+                                "<div class='dishcom'>内容："+tm.text+"</div>"+
+                                "<div class='dishcom'>评分："+tm.score+"</div>"+
+                                "<div class='dishcom'>评论时间："+tm.time+"</div>"+
+                                "<img src='"+tm.picurl+"' alt='false' style='height:100px;'>"+
+                                // "<button style='height:60px;width:200px;font-size:24px;background-color:red;' onclick='deletcom("+tm.id+")'>删除评论</button>"+
+                            "</div><br>")
+                            }
+                        },
+                        error: function(){
+                            alert("Send Failed!");
+                        }
+                    });
+                    
+            };
+
+
+        // $(function(){
+        //     
+        // })
+        
+        $(function(){
+            $(".buton").click(function(){
+                $(".box").fadeIn();
+            });
+            $(".close").click(function(){
+                $(".box").fadeOut();
+            });
+            $(".butn").click(function(){
+                $(".box").fadeOut();
+            });
+            $(".upbutn").click(function(){
+                $(".upbox").fadeOut();
+            });
+            $(".upclose").click(function(){
+                $(".upbox").fadeOut();
             });
         });
-        /** 用户角色   **/
-        var userRole = '';
 
-        /** 模糊查询来电用户  **/
-        function search(){
-            $("#submitForm").attr("action", "house_list.html?page=" + 1).submit();
-        }
-
-        /** 新增   **/
-        function add(){
-            $("#submitForm").attr("action", "/xngzf/archives/luruFangyuan.action").submit();	
-        }
-        
-        /** Excel导出  **/
-        function exportExcel(){
-            if( confirm('您确定要导出吗？') ){
-                var fyXqCode = $("#fyXq").val();
-                var fyXqName = $('#fyXq option:selected').text();
-    //	 		alert(fyXqCode);
-                if(fyXqCode=="" || fyXqCode==null){
-                    $("#fyXqName").val("");
-                }else{
-    //	 			alert(fyXqCode);
-                    $("#fyXqName").val(fyXqName);
-                }
-                $("#submitForm").attr("action", "/xngzf/archives/exportExcelFangyuan.action").submit();	
-            }
-        }
-        
-        /** 删除 **/
-        function del(fyID){
-            // 非空判断
-            if(fyID == '') return;
-            if(confirm("您确定要删除吗？")){
-                $("#submitForm").attr("action", "/xngzf/archives/delFangyuan.action?fyID=" + fyID).submit();			
-            }
-        }
-        
-        /** 批量删除 **/
-        function batchDel(){
-            if($("input[name='IDCheck']:checked").size()<=0){
-                art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'至少选择一条', ok:true,});
-                return;
-            }
-            // 1）取出用户选中的checkbox放入字符串传给后台,form提交
-            var allIDCheck = "";
-            $("input[name='IDCheck']:checked").each(function(index, domEle){
-                bjText = $(domEle).parent("td").parent("tr").last().children("td").last().prev().text();
-    // 			alert(bjText);
-                // 用户选择的checkbox, 过滤掉“已审核”的，记住哦
-                if($.trim(bjText)=="已审核"){
-    // 				$(domEle).removeAttr("checked");
-                    $(domEle).parent("td").parent("tr").css({color:"red"});
-                    $("#resultInfo").html("已审核的是不允许您删除的，请联系管理员删除！！！");
-    // 				return;
-                }else{
-                    allIDCheck += $(domEle).val() + ",";
-                }
-            });
-            // 截掉最后一个","
-            if(allIDCheck.length>0) {
-                allIDCheck = allIDCheck.substring(0, allIDCheck.length-1);
-                // 赋给隐藏域
-                $("#allIDCheck").val(allIDCheck);
-                if(confirm("您确定要批量删除这些记录吗？")){
-                    // 提交form
-                    $("#submitForm").attr("action", "/xngzf/archives/batchDelFangyuan.action").submit();
-                }
-            }
-        }
-
-        /** 普通跳转 **/
-        function jumpNormalPage(page){
-            $("#submitForm").attr("action", "house_list.html?page=" + page).submit();
-        }
-        
-        /** 输入页跳转 **/
-        function jumpInputPage(totalPage){
-            // 如果“跳转页数”不为空
-            if($("#jumpNumTxt").val() != ''){
-                var pageNum = parseInt($("#jumpNumTxt").val());
-                // 如果跳转页数在不合理范围内，则置为1
-                if(pageNum<1 | pageNum>totalPage){
-                    art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'请输入合适的页数，\n自动为您跳到首页', ok:true,});
-                    pageNum = 1;
-                }
-                $("#submitForm").attr("action", "house_list.html?page=" + pageNum).submit();
-            }else{
-                // “跳转页数”为空
-                art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'请输入合适的页数，\n自动为您跳到首页', ok:true,});
-                $("#submitForm").attr("action", "house_list.html?page=" + 1).submit();
-            }
-        }
     </script>
-
-    <style>
-        .alt td{ background:black !important;}
-    </style>
 </head>
 
 <body>
-	<form id="submitForm" name="submitForm" action="" method="post">
-		<input type="hidden" name="allIDCheck" value="" id="allIDCheck"/>
-		<input type="hidden" name="fangyuanEntity.fyXqName" value="" id="fyXqName"/>
-		<div id="container">
-			<div class="ui_content">
-				<div class="ui_text_indent">
-					<div id="box_border">
-						<div id="box_top">搜索</div>
-						<div id="box_center">
-							小区
-							<select name="fangyuanEntity.fyXqCode" id="fyXq" class="ui_select01" onchange="getFyDhListByFyXqCode();">
-                                <option value=""
-                                >--请选择--</option>
-                                <option value="6">瑞景河畔</option>
-                                <option value="77">蔚蓝小区</option>
-                                <option value="83">和盛园小区</option>
-                            </select>
+	<div class="check">
+        <div class="toprow">全部菜品</div>
+        <div class="details">
+            
+            
+            
+        </div>
+        <div class="first">
+        <input id="search" type="text" placeholder="菜品名称" class="inp" id="search">
+        <button class="but">搜索</button>
+        <button class="buton" value="add">+</button>
+        <br>
+        <table class="tab">
+            <tr>
+                <th style="width: 500px;">菜品名称</th>
+                <th>店铺</th>
+                <th>店铺位置</th>
+                <th>修改菜品</th>
+                <th>查看详情</th>
+            </tr>
+            
+            <tr>
 
-							栋号
-							<select name="fangyuanEntity.fyDhCode" id="fyDh" class="ui_select01">
-                                <option value="">--请选择--</option>
-                            </select>
-							户型
-							<select name="fangyuanEntity.fyHxCode" id="fyHx" class="ui_select01">
-                                <option value="">--请选择--</option>
-                                <option value="76">一室一厅一卫</option>
-                                <option value="10">两室一厅一卫</option>
-                                <option value="14">三室一厅一卫</option>
-                                <option value="71">三室两厅一卫</option>
-                            </select>
-							状态
-							<select name="fangyuanEntity.fyStatus" id="fyStatus" class="ui_select01">
-                                <option value="">--请选择--</option>
-                                <option value="26">在建</option>
-                                <option value="25">建成待租</option>
-                                <option value="13">已配租</option>
-                                <option value="12">已租赁</option>
-                                <option value="24">腾退待租</option>
-                                <option value="23">欠费</option>
-                                <option value="27">其他</option>
-                            </select>
+            </tr>
+        </table>
+        <table class="tab2">
+            <tr>
+                <th style="width: 500px;">菜品名称</th>
+                <th>店铺</th>
+                <th>店铺位置</th>
+                <th>修改菜品</th>
+                <th>查看详情</th>
+            </tr>
+            
+            <tr>
 
-							座落&nbsp;&nbsp;<input type="text" id="fyZldz" name="fangyuanEntity.fyZldz" class="ui_input_txt02" />
-						</div>
-						<div id="box_bottom">
-							<input type="button" value="查询" class="ui_input_btn01" onclick="search();" /> 
-							<input type="button" value="新增" class="ui_input_btn01" id="addBtn" /> 
-							<input type="button" value="删除" class="ui_input_btn01" onclick="batchDel();" /> 
-							<input type="button" value="导入" class="ui_input_btn01" id="importBtn" />
-							<input type="button" value="导出" class="ui_input_btn01" onclick="exportExcel();" />
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="ui_content">
-				<div class="ui_tb">
-					<table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
-						<tr>
-							<th width="30"><input type="checkbox" id="all" onclick="selectOrClearAllCheckbox(this);" />
-							</th>
-							<th>位置</th>
-							<th>房源</th>
-							<th>房源面积</th>
-							<th>计租面积</th>
-							<th>户型</th>
-							<th>建筑结构</th>
-							<th>租赁性质</th>
-							<th>状态</th>
-							<th>操作</th>
-						</tr>
-							<tr>
-								<td><input type="checkbox" name="IDCheck" value="14458579642011" class="acb" /></td>
-								<td>城中区</td>
-								<td>瑞景河畔16号楼1-111</td>
-								<td>65.97㎡</td>
-								<td>65.97㎡</td>
-								<td>一室一厅一卫</td>
-								<td>混凝土</td>
-								<td>公租房</td>
-								<td>建成待租</td>
-								<td>
-									<a href="house_edit.html?fyID=14458579642011" class="edit">编辑</a> 
-									<a href="javascript:del('14458579642011');">删除</a>
-								</td>
-							</tr>
-						
-							<tr>
-								<td><input type="checkbox" name="IDCheck" value="14458625716623" class="acb" /></td>
-								<td>城中区</td>
-								<td>瑞景河畔16号楼1-112</td>
-								<td>67.47㎡</td>
-								<td>67.47㎡</td>
-								<td>一室一厅一卫</td>
-								<td>混凝土</td>
-								<td>公租房</td>
-								<td>已配租</td>
-								<td>
-									<a href="house_edit.html?fyID=14458625716623" class="edit">编辑</a> 
-									<a href="javascript:del('14458625716623');">删除</a>
-								</td>
-							</tr>
-						
-							<tr>
-								<td><input type="checkbox" name="IDCheck" value="14458592537463" class="acb" /></td>
-								<td>城中区</td>
-								<td>瑞景河畔16号楼2-121</td>
-								<td>65.97㎡</td>
-								<td>65.97㎡</td>
-								<td>一室一厅一卫</td>
-								<td>混凝土</td>
-								<td>公租房</td>
-								<td>建成待租</td>
-								<td>
-									<a href="house_edit.html?fyID=14458592537463" class="edit">编辑</a> 
-									<a href="javascript:del('14458592537463');">删除</a>
-								</td>
-							</tr>
-						
-							<tr>
-								<td><input type="checkbox" name="IDCheck" value="14458632171244" class="acb" /></td>
-								<td>城中区</td>
-								<td>瑞景河畔16号楼2-122</td>
-								<td>67.47㎡</td>
-								<td>67.47㎡</td>
-								<td>一室一厅一卫</td>
-								<td>混凝土</td>
-								<td>公租房</td>
-								<td>建成待租</td>
-								<td>
-									<a href="house_edit.html?fyID=14458632171244" class="edit">编辑</a> 
-									<a href="javascript:del('14458632171244');">删除</a>
-								</td>
-							</tr>
-						
-							<tr>
-								<td><input type="checkbox" name="IDCheck" value="14458599318263" class="acb" /></td>
-								<td>城中区</td>
-								<td>瑞景河畔16号楼3-131</td>
-								<td>65.97㎡</td>
-								<td>65.97㎡</td>
-								<td>一室一厅一卫</td>
-								<td>混凝土</td>
-								<td>公租房</td>
-								<td>建成待租</td>
-								<td>
-									<a href="house_edit.html?fyID=14458599318263" class="edit">编辑</a> 
-									<a href="javascript:del('14458599318263');">删除</a>
-								</td>
-							</tr>
-						
-							<tr>
-								<td><input type="checkbox" name="IDCheck" value="14458638753194" class="acb" /></td>
-								<td>城中区</td>
-								<td>瑞景河畔16号楼3-132</td>
-								<td>67.47㎡</td>
-								<td>67.47㎡</td>
-								<td>一室一厅一卫</td>
-								<td>混凝土</td>
-								<td>公租房</td>
-								<td>建成待租</td>
-								<td>
-									<a href="house_edit.html?fyID=14458638753194" class="edit">编辑</a> 
-									<a href="javascript:del('14458638753194');">删除</a>
-								</td>
-							</tr>
-						
-							<tr>
-								<td><input type="checkbox" name="IDCheck" value="14458606278350" class="acb" /></td>
-								<td>城中区</td>
-								<td>瑞景河畔16号楼4-141</td>
-								<td>65.97㎡</td>
-								<td>65.97㎡</td>
-								<td>一室一厅一卫</td>
-								<td>混凝土</td>
-								<td>公租房</td>
-								<td>建成待租</td>
-								<td>
-									<a href="house_edit.html?fyID=14458606278350" class="edit">编辑</a> 
-									<a href="javascript:del('14458606278350');">删除</a>
-								</td>
-							</tr>
-						
-							<tr>
-								<td><input type="checkbox" name="IDCheck" value="14458644830000" class="acb" /></td>
-								<td>城中区</td>
-								<td>瑞景河畔16号楼4-142</td>
-								<td>67.47㎡</td>
-								<td>67.47㎡</td>
-								<td>一室一厅一卫</td>
-								<td>混凝土</td>
-								<td>公租房</td>
-								<td>已配租</td>
-								<td>
-									<a href="house_edit.html?fyID=14458644830000" class="edit">编辑</a> 
-									<a href="javascript:del('14458644830000');">删除</a>
-								</td>
-							</tr>
-						
-							<tr>
-								<td><input type="checkbox" name="IDCheck" value="14458612828548" class="acb" /></td>
-								<td>城中区</td>
-								<td>瑞景河畔16号楼5-151</td>
-								<td>65.97㎡</td>
-								<td>65.97㎡</td>
-								<td>一室一厅一卫</td>
-								<td>混凝土</td>
-								<td>公租房</td>
-								<td>建成待租</td>
-								<td>
-									<a href="house_edit.html?fyID=14458612828548" class="edit">编辑</a> 
-									<a href="javascript:del('14458612828548');">删除</a>
-								</td>
-							</tr>
-						
-							<tr>
-								<td><input type="checkbox" name="IDCheck" value="14458619251417" class="acb" /></td>
-								<td>城中区</td>
-								<td>瑞景河畔16号楼6-161</td>
-								<td>65.97㎡</td>
-								<td>65.97㎡</td>
-								<td>一室一厅一卫</td>
-								<td>混凝土</td>
-								<td>公租房</td>
-								<td>已配租</td>
-								<td>
-									<a href="house_edit.html?fyID=14458619251417" class="edit">编辑</a> 
-									<a href="javascript:del('14458619251417');">删除</a>
-								</td>
-							</tr>
-						
-					</table>
-				</div>
-				<div class="ui_tb_h30">
-					<div class="ui_flt" style="height: 30px; line-height: 30px;">
-						共有
-						<span class="ui_txt_bold04">90</span>
-						条记录，当前第
-						<span class="ui_txt_bold04">1
-						/	
-						9</span>
-						页
-					</div>
-					<div class="ui_frt">
-						<!--    如果是第一页，则只显示下一页、尾页 -->
-						
-							<input type="button" value="首页" class="ui_input_btn01" />
-							<input type="button" value="上一页" class="ui_input_btn01" />
-							<input type="button" value="下一页" class="ui_input_btn01"
-								onclick="jumpNormalPage(2);" />
-							<input type="button" value="尾页" class="ui_input_btn01"
-								onclick="jumpNormalPage(9);" />
-						
-						
-						
-						<!--     如果是最后一页，则只显示首页、上一页 -->
-						
-						转到第<input type="text" id="jumpNumTxt" class="ui_input_txt01" />页
-							 <input type="button" class="ui_input_btn01" value="跳转" onclick="jumpInputPage(9);" />
-					</div>
-				</div>
-			</div>
-		</div>
-	</form>
-<div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
+            </tr>
+        </table>
+    </div>
+</div>
+    <div class="box">
+        <div style="background-color: rgb(120, 144, 156); height: 35px;text-align: right;">
+            <button class="close">&#10006</button>
+        </div>
+        <!-- <form id="myForm" name="myForm" method="POST" enctype="multipart/form-data"> -->
+        <form id="myForm" name="myForm" enctype="multipart/form-data">
+            <div class="typeface">菜名:</div>
+            <input id="name" name="name" type="text" class="inp" value="墨西哥烤肉饭" multiple>
+            <br>
+            <div class="typeface2">口味:</div>
+            <input id="favor" name="favor" type="text" class="inp" value="辣" multiple>
+            <br>
+            <div class="typeface2">价格:</div>
+            <input id="price" name="price" type="text" class="inp" value=10 multiple>
+            <br>
+            <div class="typeface2">类别:</div>
+            <input id="category" name="category" type="text" class="inp" value="无" multiple>
+            <br>
+            <div class="typeface2">店铺:</div>
+            <input id="rname" name="rname" type="text" class="inp" value="墨西哥烤肉饭" multiple>
+            <br>
+            <div class="typeface2">店铺位置:</div>
+            <input id="rlocation" name="rlocation" type="text" class="inp" value="玫瑰园二楼" multiple>
+            <br>
+            <div class="typeface2">图片:</div>
+            <input id="file" name="file" type="file" multiple>
+            <br>
+            <button class="butn">取消</button>
+            <button class="but2">确定</button>
+        </form>
+    </div>
+
+    <div class="upbox">
+        <div style="background-color: rgb(120, 144, 156); height: 35px;text-align: right;">
+            <button class="upclose">&#10006</button>
+        </div>
+        <!-- <form id="myForm" name="myForm" method="POST" enctype="multipart/form-data"> -->
+        <div class="typeface">菜名:</div>
+        <input id="upname" name="name" type="text" class="inp" value="墨西哥烤肉饭" multiple>
+        <br>
+        <div class="typeface2">口味:</div>
+        <input id="upfavor" name="favor" type="text" class="inp" value="辣" multiple>
+        <br>
+        <div class="typeface2">价格:</div>
+        <input id="upprice" name="price" type="text" class="inp" value=10 multiple>
+        <br>
+        <div class="typeface2">类别:</div>
+        <input id="upcategory" name="category" type="text" class="inp" value="无" multiple>
+        <br>
+        <div class="typeface2">店铺:</div>
+        <input id="uprname" name="rname" type="text" class="inp" value="墨西哥烤肉饭" multiple>
+        <br>
+        <div class="typeface2">店铺位置:</div>
+        <input id="uprlocation" name="rlocation" type="text" class="inp" value="玫瑰园二楼" multiple>
+        <br>
+        <div class="typeface2">菜品评分:</div>
+        <input id="upscore" name="rlocation" type="text" class="inp" value="3" multiple>
+        <br>
+        <div class="typeface2">评分人数:</div>
+        <input id="upnum" name="rlocation" type="text" class="inp" value="0" multiple>
+        <br>
+        <button class="upbutn">取消</button>
+        <button class="upbut2">确定</button>
+    </div>
+
+    <div class="decide">
+        <button class="debuton">取消</button>
+        <button class="debutton">确定</button>
+    </div>
+    
 </body>
 </html>

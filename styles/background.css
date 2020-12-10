@@ -67,8 +67,9 @@ a{
     display: inline-block;
     padding: 10px 5px;
     line-height: 50px;
-    text-align: center;
+    text-align: left;
     font-weight: 700;
+    text-indent: 2em;
     color: rgb(150, 150, 150);
     font-size: 20px; 
     text-decoration: none;

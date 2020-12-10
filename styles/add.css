@@ -1,0 +1,155 @@
+.box{
+    display: none;
+    position: fixed;
+    background-color: white;
+    margin-top: 150px;
+    margin-left: 600px;
+    margin-right: 600px;
+    height: 500px;
+    width: 470px;
+    z-index: 1;
+}
+
+.box .close{
+    background-color: rgb(120, 144, 156);
+    color: white; 
+    height: 30px;
+    width: 30px;
+    font-size: 20px;
+    border-style: none;
+
+}
+
+.box .typeface{
+    display: inline-block;
+    height: 70px;
+    width: 100px;
+    line-height: 70px;
+    font-size: 18px;
+    text-indent: 1em;
+    text-align-last: right;
+    color: rgb(133, 133, 133);
+
+}
+
+.box .typeface2{
+    display: inline-block;
+    width: 100px;
+    height: 45px;
+    line-height: 25px;
+    font-size: 18px;
+    text-indent: 1em;
+    text-align-last: right;
+    color: rgb(133, 133, 133);
+
+}
+
+.box #dish{
+    width: 330px;
+    height: 30px;
+}
+
+.box #dish2{
+    width: 330px;
+    height: 30px;
+}
+
+.box .inp{
+    width: 322px;
+    height: 25px;
+}
+
+.box .butn{
+    margin-top: 65px;
+    margin-left: 270px;
+    width: 80px;
+    height: 30px;
+    background-color: white;
+    border-color: rgb(199, 199, 199);
+}
+
+.box .but2{
+    margin-left: 15px;
+    width: 80px;
+    height: 30px;
+    background-color: rgb(120, 144, 156);
+    color: white;
+}
+
+
+td{
+    border-left:  rgba(83, 139, 243, 0.5);
+    border-right:  rgba(83, 139, 243, 0.5);
+    color: white;
+    font-size: 20px;
+    height: 35px;
+    text-align: center;
+    background-color: rgba(83, 139, 243, 0.5);
+}
+
+.upbox{
+    display: none;
+    position: fixed;
+    background-color: white;
+    margin-top: 150px;
+    margin-left: 600px;
+    margin-right: 600px;
+    height: 550px;
+    width: 470px;
+    z-index: 1;
+}
+
+.upbox .typeface{
+    display: inline-block;
+    height: 70px;
+    width: 100px;
+    line-height: 70px;
+    font-size: 18px;
+    text-indent: 1em;
+    text-align-last: right;
+    color: rgb(133, 133, 133);
+
+}
+
+.upbox .typeface2{
+    display: inline-block;
+    width: 100px;
+    height: 45px;
+    line-height: 25px;
+    font-size: 18px;
+    text-indent: 1em;
+    text-align-last: right;
+    color: rgb(133, 133, 133);
+}
+
+.upbox #dish{
+    width: 330px;
+    height: 30px;
+}
+
+.upbox #dish2{
+    width: 330px;
+    height: 30px;
+}
+
+.upbox .inp{
+    width: 322px;
+    height: 25px;
+}
+
+.upbox .upbutn{
+    margin-top: 20px;
+    margin-left: 270px;
+    width: 80px;
+    height: 30px;
+    background-color: white;
+    border-color: rgb(199, 199, 199);
+}
+
+.upbox .upbut2{
+    margin-left: 15px;
+    width: 80px;
+    height: 30px;
+    background-color: rgb(120, 144, 156);
+    color: white;
+}
